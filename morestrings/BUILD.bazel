@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "morestrings",
+    srcs = ["reverse.go"],
+    importpath = "github.com/aamonten/go-hello/morestrings",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "morestrings_test",
+    srcs = ["reverse_test.go"],
+    embed = [":morestrings"],
+)

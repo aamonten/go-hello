@@ -2,12 +2,20 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/aamonten/go-hello/morestrings"
-	"github.com/google/go-cmp/cmp"
 )
 
+func reverseHandler(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Fprintf(w, morestrings.ReverseRunes("Hello, world!"))
+
+}
+
 func main() {
-	fmt.Println(morestrings.ReverseRunes("Hello, world!"))
-	fmt.Println(cmp.Diff("Hello World", "Hello Go"))
+
+	http.HandleFunc("/", reverseHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
