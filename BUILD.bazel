@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
-load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
 
 # gazelle:prefix github.com/aamonten/go-hello
 gazelle(name = "gazelle")
@@ -21,14 +21,23 @@ go_binary(
 )
 
 go_image(
-    name = "base_image",
+    name = "base-image",
     embed = [":go-hello_lib"],
     visibility = ["//visibility:public"],
 )
 
 container_image(
     name = "image",
-    base = ":base_image",
+    base = ":base-image",
     stamp = True,
     visibility = ["//visibility:public"],
+)
+
+container_push(
+   name = "push-image",
+   image = ":image",
+   format = "Docker",
+   registry = "gcr.io",
+   repository = "amontene-sandbox/go-hello",
+   tag = "{BUILD_USER}"
 )
