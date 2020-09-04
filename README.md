@@ -16,7 +16,8 @@ Once the application is running, visit [http://localhost:8080](http://localhost:
 To build and run the Go application within a container (making use of distroless):
 
 ```bash
-bazel run //:image
+bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //:image
+docker run --rm -it -p8080:8080 bazel:image
 ```
 Once the container is running, visit [http://localhost:8080](http://localhost:8080)
 
