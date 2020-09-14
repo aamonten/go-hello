@@ -29,6 +29,7 @@ go_image(
 container_image(
     name = "image",
     base = ":base-image",
+    repository = "amontene-sandbox/go-hello",
     stamp = True,
     visibility = ["//visibility:public"],
 )
