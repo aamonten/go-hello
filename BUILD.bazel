@@ -39,5 +39,5 @@ container_push(
    format = "Docker",
    registry = "gcr.io",
    repository = "amontene-sandbox/go-hello",
-   tag = "{BUILD_USER}"
+   tag = "{BUILD_TIMESTAMP}"
 )
