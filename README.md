@@ -30,3 +30,19 @@ bazel run //:push-image
 To be able to push containers to registry, you will need to do the approtiate container registry configuration, follow the instructions from [here](https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud-helper) and indicate the appropiate repository name to configure authentication [for Google Container Registry](https://cloud.google.com/container-registry/docs)
 
 You will need to indicate directory where the config.json is located in the WORKSPACE file
+
+# Deployment to Kubernetes
+
+By using a bazel rules for kubernetes you are able to deploy your application to a local or kubernetes instance, by default bazel relies on your existing kubectl configuration/context (kubeconfig) for choosing where to deploy the application.
+
+After kubectl configuration to deploy the application execute following:¨
+
+```bash
+bazel run :deploy-gcp.create
+```
+
+To delete execute:
+
+```bash
+bazel run :deploy-gcp.delete
+```

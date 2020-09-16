@@ -1,0 +1,19 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: gohello-deployment
+spec:
+  selector:
+    matchLabels:
+      app: go-hello
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: go-hello
+    spec:
+      containers:
+      - name: go-hello
+        image: gcr.io/amontene-sandbox/go-hello
+        ports:
+        - containerPort: 8080
