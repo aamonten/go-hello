@@ -3,6 +3,7 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
+load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
 
 # gazelle:prefix github.com/aamonten/go-hello
 gazelle(name = "gazelle")
@@ -44,8 +45,38 @@ container_push(
 )
 
 k8s_object(
-    name = "deploy-gcp",
+    name = "deploy-pod",
     kind = "deployment",
     cluster = "gke_amontene-sandbox_europe-west1-b_go-dev",
     template = ":deployment.yaml",
+)
+
+k8s_object(
+    name = "deploy-service",
+    kind = "service",
+    cluster = "gke_amontene-sandbox_europe-west1-b_go-dev",
+    template = ":service.yaml",
+)
+
+k8s_object(
+    name = "deploy-ingress",
+    kind = "ingress",
+    cluster = "gke_amontene-sandbox_europe-west1-b_go-dev",
+    template = ":ingress.yaml",
+)
+
+k8s_objects(
+    name = "deploy-app",
+    objects = [
+      ":deploy-pod",
+      ":deploy-service",
+   ]
+)
+
+k8s_objects(
+    name = "deploy-everything",
+    objects = [
+      ":deploy-pod",
+      ":deploy-service",
+   ]
 )
