@@ -49,6 +49,10 @@ k8s_object(
     kind = "deployment",
     cluster = "gke_amontene-sandbox_europe-west1-b_go-dev",
     template = ":deployment.yaml",
+
+    images = {
+    "gcr.io/amontene-sandbox/go-hello": ":image"
+  },
 )
 
 k8s_object(
