@@ -31,18 +31,34 @@ To be able to push containers to registry, you will need to do the approtiate co
 
 You will need to indicate directory where the config.json is located in the WORKSPACE file
 
-# Deployment to Kubernetes
+# Pod Deployment to Kubernetes
 
 By using a bazel rules for kubernetes you are able to deploy your application to a local or kubernetes instance, by default bazel relies on your existing kubectl configuration/context (kubeconfig) for choosing where to deploy the application.
 
 After kubectl configuration to deploy the application execute following:¨
 
 ```bash
-bazel run :deploy-gcp.create
+bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 :deploy-pod.create
 ```
+You will need to add the platforms parameter as every time we run this rule, we also rebuild the container image
 
 To delete execute:
 
 ```bash
-bazel run :deploy-gcp.delete
+bazel run :deploy-pod.delete
+```
+
+# Service and Ingress Deployment
+
+I Have added another rule that will make the deployment of the pod, service and ingress, you can execute this by:
+
+```bash
+bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 :deploy-everything.create
+```
+You will need to add the platforms parameter as every time we run this rule, we also rebuild the container image
+
+To delete execute:
+
+```bash
+bazel run :deploy-everything.delete
 ```
