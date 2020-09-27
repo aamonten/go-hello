@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  # Ensure the image values match the values in the manifests.
+  # This allows Skaffold to substitute the values with the full image tags.
+  artifacts:
+  - image: gcr.io/amontene-sandbox/go-hello
+    context: .
+    bazel:
+      target: //:image.tar
+      args:
+      - --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 
+  tagPolicy:
+    # Use sha256 to match Bazel behavior
+    sha256: {}
+deploy:
+  kubectl:
+    manifests: 
+    # - service.yaml
+    - deployment.yaml 

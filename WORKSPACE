@@ -1,7 +1,6 @@
 # General Rules
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-
 # Rules Docker
 http_archive(
     name = "io_bazel_rules_docker",
@@ -11,27 +10,32 @@ http_archive(
 )
 
 load("@io_bazel_rules_docker//repositories:repositories.bzl", container_repositories = "repositories")
+
 container_repositories()
 
 load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
+
 container_deps()
 
 load("@io_bazel_rules_docker//repositories:pip_repositories.bzl", "pip_deps")
+
 pip_deps()
 
 load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
+
 _go_image_repos()
 
-load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl", docker_toolchain_configure="toolchain_configure")
+load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl", docker_toolchain_configure = "toolchain_configure")
+
 docker_toolchain_configure(
-  name = "docker_config",
-  # Replace this with an absolute path to a directory which has a custom docker
-  # client config.json. Note relative paths are not supported.
-  # Docker allows you to specify custom authentication credentials
-  # in the client configuration JSON file.
-  # See https://docs.docker.com/engine/reference/commandline/cli/#configuration-files
-  # for more details.
-  client_config="/tmp/docker",
+    name = "docker_config",
+    # Replace this with an absolute path to a directory which has a custom docker
+    # client config.json. Note relative paths are not supported.
+    # Docker allows you to specify custom authentication credentials
+    # in the client configuration JSON file.
+    # See https://docs.docker.com/engine/reference/commandline/cli/#configuration-files
+    # for more details.
+    client_config = "/tmp/docker",
 )
 
 # Rules Go
@@ -45,9 +49,10 @@ http_archive(
 )
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-go_rules_dependencies()
-go_register_toolchains()
 
+go_rules_dependencies()
+
+go_register_toolchains()
 
 # Gazelle
 http_archive(
@@ -59,7 +64,8 @@ http_archive(
     ],
 )
 
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+
 gazelle_dependencies()
 
 # Kubernetes
@@ -77,3 +83,17 @@ k8s_repositories()
 load("@io_bazel_rules_k8s//k8s:k8s_go_deps.bzl", k8s_go_deps = "deps")
 
 k8s_go_deps()
+
+go_repository(
+    name = "com_github_google_go_cmp",
+    importpath = "github.com/google/go-cmp",
+    sum = "h1:X2ev0eStA3AbceY54o37/0PQ/UWqKEiiO2dKL5OPaFM=",
+    version = "v0.5.2",
+)
+
+go_repository(
+    name = "org_golang_x_xerrors",
+    importpath = "golang.org/x/xerrors",
+    sum = "h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=",
+    version = "v0.0.0-20191204190536-9bdfabe68543",
+)
